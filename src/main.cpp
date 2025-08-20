@@ -9,7 +9,7 @@
 #define MAX_RAY_COUNT (1080 * 720) + 1
 
 int main() {
-    printf("Raytracer test");
+    printf("Raytracer test\n");
 
     sCamera camera;
     sScene scene;
