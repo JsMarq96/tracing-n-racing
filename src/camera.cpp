@@ -42,7 +42,7 @@ void Camera_create_camera_rays( sCamera *cam,
                                 const uint32_t max_ray_count,
                                 Intersection::sRay *ray_list,
                                 uint32_t *ray_count) {
-    const uint32_t height_resolution = (uint32_t) round(width_resolution / cam->aspect_ratio);
+    const uint32_t height_resolution = (uint32_t) (width_resolution / cam->aspect_ratio);
 
     glm::vec2 screen_res = glm::vec2(width_resolution, height_resolution);
 
@@ -53,7 +53,7 @@ void Camera_create_camera_rays( sCamera *cam,
         for(uint32_t y = 0u; y < height_resolution; y++) {
             // Compute NDC coordinates from the pixel position, and the convert those to wordl coord
             // all the rays are in word position
-            glm::vec4 nd_coords = glm::vec4(x / screen_res.x, y / screen_res.y, 0.0f, 1.0f) * 2.0f - 1.5f;
+            glm::vec4 nd_coords = glm::vec4((x / screen_res.x) * 2.0f - 1.0f, (y / screen_res.y) * 2.0f - 1.0f, -1.0f, 1.0f);
             glm::vec4 world_coords = cam->inv_view_proj_mat * nd_coords;
             world_coords /= world_coords.w;
 

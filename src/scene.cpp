@@ -10,11 +10,25 @@ bool ray_sphere_intersection(   const glm::vec3 sphere_origin,
                                 const float raidus,
                                 const Intersection::sRay ray,
                                 float *intersection_t) {
-    const glm::vec3 OC = sphere_origin - ray.origin;
-    return quadratic_solver(glm::dot(ray.direction, ray.direction),
+    const glm::vec3 OC = ray.origin - sphere_origin;
+    float t1, t2;
+
+    if (!quadratic_solver(glm::dot(ray.direction, ray.direction),
                             2.0f * glm::dot(ray.direction, OC),
                             glm::dot(OC, OC) - raidus * raidus,
-                            intersection_t);
+                            &t1, &t2)) {
+        return false;
+    }
+
+    if (t1 < 0.0f) {
+        *intersection_t = t2;
+    } else if (t2 > 0.0f) {
+        *intersection_t = t1;
+    } else {
+        return false;
+    }
+
+    return true;
 }
 
 void Scene_test_rays(   sScene *scene,

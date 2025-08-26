@@ -13,4 +13,4 @@ void write_ppm( const double* raw_data,
                 const uint32_t height,
                 const char* file_name);
 
-bool quadratic_solver(const float a, const float b, const float c, float *t);
+bool quadratic_solver(const float a, const float b, const float c, float *t1, float *t2);

@@ -5,8 +5,9 @@
 #include "utils.h"
 #include "intersection/intersection_types.h"
 
-#define BASE_WITDH 1080
-#define MAX_RAY_COUNT (1080 * 720) + 1
+#define BASE_WITDH 1920.0f
+#define ASPECT_RATIO 16.0f/9.0f
+#define MAX_RAY_COUNT BASE_WITDH * ((float) BASE_WITDH * ASPECT_RATIO) + 1
 
 int main() {
     printf("Raytracer test\n");
@@ -15,14 +16,14 @@ int main() {
     sScene scene;
 
     Camera_config_view(&camera, glm::vec3(0.0f), glm::vec3(1.0f, 0.0f, 0.0f), glm::vec3(0.0f, 1.0f, 0.0f));
-    Camera_config_projection(&camera, DEG2RAD(90.0f), 16.0f/9.0f, 0.001f, 10.00f);
+    Camera_config_projection(&camera, DEG2RAD(90.0f), 16.0f/9.0f, 0.01f, 10.00f);
 
     Intersection::sRay *ray_list = (Intersection::sRay*) malloc(sizeof(Intersection::sRay) * MAX_RAY_COUNT);
     Intersection::sResult *ray_results = (Intersection::sResult*) malloc(sizeof(Intersection::sResult) * MAX_RAY_COUNT);
 
     // Populate the scene
     {
-        Scene_Add_sphere(&scene, glm::vec3(5.0f, 0.0f, 0.0f), 1.0f, {.albedo = glm::vec3(1.0f, 0.0f, 0.0f)});
+        Scene_Add_sphere(&scene, glm::vec3(5.0f, 0.0f, 0.0f), 0.50f, {.albedo = glm::vec3(1.0f, 0.0f, 0.0f)});
     }
 
     uint32_t ray_count = 0u;

@@ -53,7 +53,7 @@ inline void write_ppm(  const float* raw_data,
 }
 
 
-bool quadratic_solver(const float a, const float b, const float c, float* t) {
+bool quadratic_solver(const float a, const float b, const float c, float* t1, float *t2) {
     const float term = b * b - 4.0f * a * c;
 
     if (term < 0.0f) {
@@ -64,11 +64,15 @@ bool quadratic_solver(const float a, const float b, const float c, float* t) {
     const float minus_b = -b;
 
     if (term == 0.0f) {
-        *t = minus_b / denom;
+        *t1 = minus_b / denom;
+        *t2 = *t1;
     } else {
         const float sqrt_term = sqrtf(term);
-        // Just pick the closes one, since it is for ray intersections
-        *t = glm::min((minus_b - sqrt_term), (minus_b + sqrt_term)) / denom;
+        const float tt1 = (minus_b + sqrt_term) / denom;
+        const float tt2 = (minus_b - sqrt_term) / denom;
+
+        *t1 = glm::min(tt1, tt2);
+        *t2 = glm::max(tt1, tt2);
     }
 
     return true;
