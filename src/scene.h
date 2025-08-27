@@ -36,4 +36,4 @@ struct sScene {
 };
 
 uint32_t Scene_Add_sphere(sScene *scene, const glm::vec3 position, const float radius, const sMaterial &mat);
-void Scene_test_rays(sScene *scene, const uint16_t ray_count, const Intersection::sRay *ray_list, uint32_t *intersection_count, Intersection::sResult *intersection_results);
+void Scene_test_rays(sScene *scene, const uint32_t ray_count, const Intersection::sRay *ray_list, uint32_t *intersection_count, Intersection::sResult *intersection_results);

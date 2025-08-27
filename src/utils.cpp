@@ -27,7 +27,7 @@ inline uint64_t get_timestamp_microsecs() {
 #endif
 }
 
-inline void write_ppm(  const float* raw_data,
+ void write_ppm(  const float* raw_data,
                         const uint32_t width,
                         const uint32_t height,
                         const char* file_name) {
@@ -36,11 +36,10 @@ inline void write_ppm(  const float* raw_data,
     // Write header with format
     fprintf(file, "P3\n%d %d\n255\n", width, height);
 
-    const glm::vec2 intensity_interval = {};
     // Write the clamped img data
     for(uint32_t j = 0u; j < height; j++) {
         for(uint32_t i = 0u; i < width; i++) {
-            const uint32_t idx = (i + width *j) * 3u;
+            const uint32_t idx = (i + width * j) * 3u;
             fprintf(file,
                     "%d %d %d\n",
                     uint32_t(255.999f * glm::clamp(raw_data[idx], 0.0f, 0.999f)),

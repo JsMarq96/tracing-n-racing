@@ -32,7 +32,7 @@ bool ray_sphere_intersection(   const glm::vec3 sphere_origin,
 }
 
 void Scene_test_rays(   sScene *scene,
-                        const uint16_t ray_count,
+                        const uint32_t ray_count,
                         const Intersection::sRay *ray_list,
                         uint32_t *intersection_count,
                         Intersection::sResult *intersection_results) {
@@ -47,7 +47,7 @@ void Scene_test_rays(   sScene *scene,
                                                             curr_transform->scale[2]));
 
         float ray_t = 0.0;
-        for(uint16_t ray_idx = 0u; ray_idx < ray_count; ray_idx++) {
+        for(uint32_t ray_idx = 0u; ray_idx < ray_count; ray_idx++) {
             if (ray_sphere_intersection(sphere_origin,
                                         radius,
                                         ray_list[ray_idx],

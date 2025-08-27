@@ -36,26 +36,29 @@ glm::mat4 Camera_get_view_projection(sCamera *cam) {
     return cam->view_proj_mat;
 }
 
-#include <cstdio>
 void Camera_create_camera_rays( sCamera *cam,
                                 const uint32_t width_resolution,
                                 const uint32_t max_ray_count,
                                 Intersection::sRay *ray_list,
+                                glm::uvec2 *screen_ray_coords,
                                 uint32_t *ray_count) {
     const uint32_t height_resolution = (uint32_t) (width_resolution / cam->aspect_ratio);
 
-    glm::vec2 screen_res = glm::vec2(width_resolution, height_resolution);
+    const glm::vec2 screen_res = glm::vec2(width_resolution, height_resolution);
 
     assert((screen_res.x * screen_res.y) <= max_ray_count);
 
     uint32_t ray_idx = 0u;
-    for(uint32_t x = 0u; x < width_resolution; x++) {
-        for(uint32_t y = 0u; y < height_resolution; y++) {
+    for(uint32_t y = 0u; y < height_resolution; y++) {
+        for(uint32_t x = 0u; x < width_resolution; x++) {
             // Compute NDC coordinates from the pixel position, and the convert those to wordl coord
-            // all the rays are in word position
-            glm::vec4 nd_coords = glm::vec4((x / screen_res.x) * 2.0f - 1.0f, (y / screen_res.y) * 2.0f - 1.0f, -1.0f, 1.0f);
-            glm::vec4 world_coords = cam->inv_view_proj_mat * nd_coords;
+            // all the rays are in world position
+            const glm::vec2 uv_coords = glm::vec2((((float)x) + 0.5f) / screen_res.x, (((float)y) + 0.5f) / screen_res.y);
+            const glm::vec2 nd_coords = uv_coords * 2.0f - 1.0f;
+            glm::vec4 world_coords = cam->inv_view_proj_mat * glm::vec4(nd_coords, -1.0f, 1.0f);
             world_coords /= world_coords.w;
+
+            screen_ray_coords[ray_idx] = glm::uvec2(x, y);
 
             ray_list[ray_idx++] = {
                 .origin = cam->position,
