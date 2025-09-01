@@ -19,6 +19,11 @@ add_executable(tracing_n_racing ${C_SOURCES} ${CPP_SOURCES} ${H_SOURCES} ${SUBFO
 
 target_compile_options(tracing_n_racing PRIVATE -pthread)
 set_target_properties(tracing_n_racing PROPERTIES OUTPUT_NAME "t_n_r")
+set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT tracing_n_racing)
+set_property(TARGET tracing_n_racing PROPERTY VS_DEBUGGER_WORKING_DIRECTORY ${CMAKE_CURRENT_LIST_DIR})
+set_property(GLOBAL PROPERTY USE_FOLDERS ON)
 
 add_subdirectory(libraries/glm)
 target_link_libraries(tracing_n_racing glm)
+
+include_directories(${C_SOURCES} ${CPP_SOURCES} ${H_SOURCES} ${SUBFOLDER_H_SOURCES} ${SUBFOLDER_C_SOURCES} ${SUBFOLDER_CPP_SOURCES})
