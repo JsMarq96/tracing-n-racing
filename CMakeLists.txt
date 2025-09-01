@@ -1,6 +1,7 @@
 cmake_minimum_required(VERSION 3.21)
 
 set(CMAKE_EXPORT_COMPILE_COMMANDS ON)
+set(CMAKE_CXX_STANDARD 23)
 set(CMAKE_CXX_FLAGS_DEBUG_INIT "-Wall")
 
 set(CMAKE_BUILD_TYPE Debug)
@@ -19,4 +20,5 @@ add_executable(tracing_n_racing ${C_SOURCES} ${CPP_SOURCES} ${H_SOURCES} ${SUBFO
 target_compile_options(tracing_n_racing PRIVATE -pthread)
 set_target_properties(tracing_n_racing PROPERTIES OUTPUT_NAME "t_n_r")
 
+add_subdirectory(libraries/glm)
 target_link_libraries(tracing_n_racing glm)
